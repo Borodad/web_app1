@@ -14,5 +14,5 @@ def write_to_do_list(to_do_list_local, filepath="todolist.txt"): # note non-defa
 # print(__name__)
 if __name__ == "__main__": # if functions is ran directly then print message.  __name__ is a hidden variable
     # and it's value is based on the file that calls/runs the code.  Here if functions is called directly __name__ will be __main__ otherwise
-    # if it's ran from main.py its name will be set to to_do_list.modules.functions
+    # if it's ran from CLI_main.py its name will be set to to_do_list.modules.functions
     print("hello from functions")
