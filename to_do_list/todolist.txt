@@ -1,14 +1,9 @@
 add a new member
 another member
-remove
+ tooremove
 twothree then two
 now then now then
-seven two
-eight
-nine nine
 test one
 test two
-six
 three
-j
 last not least
