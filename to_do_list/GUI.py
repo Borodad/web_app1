@@ -1,6 +1,10 @@
 import functions
 import FreeSimpleGUI as sgui
+import time
 
+sgui.theme("Black")
+
+clock = sgui.Text("", key="clock")
 label = sgui.Text("Type in a to do")
 input_box = sgui.InputText(tooltip="Enter to do", key="todo") # set key value to "todo"
 add_button = sgui.Button("Add")
@@ -11,14 +15,16 @@ complete_button = sgui.Button("Complete")
 exit_button = sgui.Button("Exit")
 
 mywindow = sgui.Window("My to do App",
-                       layout=[[label],
+                       layout=[[clock],
+                               [label],
                                [input_box, add_button],
                                [list_box, edit_button, complete_button],
                                [exit_button]],
                        font = ("Helvetica", 15))                     # create a window called "My to do App"
 
 while True:
-    event, values = mywindow.read()
+    event, values = mywindow.read(timeout=200) # timeout forces loop to run every 10 ms - so time updates
+    mywindow["clock"].update(value=time.strftime("%d-%m-%Y %H:%M:%S"))
     print(event)     # label of event
     print(values)    # dictionary tuple
     print(values["list_of_existing_to_dos"])
@@ -30,22 +36,28 @@ while True:
             functions.write_to_do_list(to_do_list)
             mywindow["list_of_existing_to_dos"].update(values=to_do_list)
         case "Edit":
-            print(values["list_of_existing_to_dos"][0])
-            to_do_item_to_edit = values["list_of_existing_to_dos"][0] # 0 is the index value of the chosen item
-            new_to_do = values["todo"] # value entered in the add field
+            try:
+                print(values["list_of_existing_to_dos"][0])
+                to_do_item_to_edit = values["list_of_existing_to_dos"][0] # 0 is the index value of the chosen item
+                new_to_do = values["todo"] # value entered in the add field
 
-            list_of_to_dos = functions.get_to_do_list()
-            index = list_of_to_dos.index(to_do_item_to_edit)
-            list_of_to_dos[index] = new_to_do
-            functions.write_to_do_list(list_of_to_dos)
-            mywindow["list_of_existing_to_dos"].update(values=list_of_to_dos)
+                list_of_to_dos = functions.get_to_do_list()
+                index = list_of_to_dos.index(to_do_item_to_edit)
+                list_of_to_dos[index] = new_to_do
+                functions.write_to_do_list(list_of_to_dos)
+                mywindow["list_of_existing_to_dos"].update(values=list_of_to_dos)
+            except IndexError:
+                sgui.popup("Please select an item first", font=("Helvetica", 10))
         case "Complete":
-            to_do_to_complete = values["list_of_existing_to_dos"][0]
-            list_of_to_dos = functions.get_to_do_list()
-            list_of_to_dos.remove(to_do_to_complete)
-            functions.write_to_do_list(list_of_to_dos)
-            mywindow["list_of_existing_to_dos"].update(values=list_of_to_dos)
-            mywindow["todo"].update(value="")
+            try:
+                to_do_to_complete = values["list_of_existing_to_dos"][0]
+                list_of_to_dos = functions.get_to_do_list()
+                list_of_to_dos.remove(to_do_to_complete)
+                functions.write_to_do_list(list_of_to_dos)
+                mywindow["list_of_existing_to_dos"].update(values=list_of_to_dos)
+                mywindow["todo"].update(value="")
+            except IndexError:
+                sgui.popup("Please select an item first", font=("Helvetica", 10))
         case "Exit":
             break
         case "list_of_existing_to_dos":
