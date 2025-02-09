@@ -1,13 +1,19 @@
 import functions
 import FreeSimpleGUI as sgui
 import time
+import os
 
 sgui.theme("Black")
+
+if not os.path.exists("todolist.txt"):
+    with open("todolist.txt", "w") as file: # create file
+        pass  # statement that does nothing
 
 clock = sgui.Text("", key="clock")
 label = sgui.Text("Type in a to do")
 input_box = sgui.InputText(tooltip="Enter to do", key="todo") # set key value to "todo"
-add_button = sgui.Button("Add")
+add_button = sgui.Button("Add", size=10, mouseover_colors="green",
+                         tooltip="Add to do", key="Add")
 list_box = sgui.Listbox(values=functions.get_to_do_list(), key="list_of_existing_to_dos",
                         enable_events=True, size=[45, 10])
 edit_button = sgui.Button("Edit")
@@ -25,9 +31,9 @@ mywindow = sgui.Window("My to do App",
 while True:
     event, values = mywindow.read(timeout=200) # timeout forces loop to run every 10 ms - so time updates
     mywindow["clock"].update(value=time.strftime("%d-%m-%Y %H:%M:%S"))
-    print(event)     # label of event
-    print(values)    # dictionary tuple
-    print(values["list_of_existing_to_dos"])
+    # print(event)     # label of event
+    # print(values)    # dictionary tuple
+    # print(values["list_of_existing_to_dos"])
     match event:
         case "Add":
             to_do_list = functions.get_to_do_list()
@@ -37,7 +43,7 @@ while True:
             mywindow["list_of_existing_to_dos"].update(values=to_do_list)
         case "Edit":
             try:
-                print(values["list_of_existing_to_dos"][0])
+                # print(values["list_of_existing_to_dos"][0])
                 to_do_item_to_edit = values["list_of_existing_to_dos"][0] # 0 is the index value of the chosen item
                 new_to_do = values["todo"] # value entered in the add field
 
@@ -65,7 +71,7 @@ while True:
         case sgui.WIN_CLOSED:    # WIN_CLOSED is a boolean variable set in FreeSimpleGUI
             break                # finish the programme
 
-print("Bye")
+# print("Bye")
 mywindow.close()
 
 
