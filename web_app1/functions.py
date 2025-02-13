@@ -1,9 +1,11 @@
-def get_to_do_list(filepath="todolist.txt"): # note use of default argument - which can be overridden
+FILEPATH = "todolist.txt"
+
+def get_to_do_list(filepath=FILEPATH): # note use of default argument - which can be overridden
     with open(filepath, "r") as file_local:  # automatically closes file
         to_do_list_local = file_local.readlines()  # read each line
     return to_do_list_local
 
-def write_to_do_list(to_do_list_local, filepath="todolist.txt"): # note non-default argument has to go before default argument
+def write_to_do_list(to_do_list_local, filepath=FILEPATH): # note non-default argument has to go before default argument
     """Write the to-do items list to the text file.  No value returned"""
     with open(filepath, "w") as file_local:
         file_local.writelines(to_do_list_local) # note no need to return any values - will return 'none'
