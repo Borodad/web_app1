@@ -1,4 +1,6 @@
-FILEPATH = "../todolist.txt"
+import os
+
+FILEPATH = os.path.join(os.getcwd(), "todolist.txt")
 
 def get_to_do_list(filepath=FILEPATH): # note use of default argument - which can be overridden
     with open(filepath, "r") as file_local:  # automatically closes file
