@@ -1,5 +1,4 @@
 def get_to_do_list(filepath="todolist.txt"): # note use of default argument - which can be overridden
-
     with open(filepath, "r") as file_local:  # automatically closes file
         to_do_list_local = file_local.readlines()  # read each line
     return to_do_list_local
