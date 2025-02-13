@@ -1,7 +1,7 @@
 import streamlit as st
-import functions # my back end read & write functions for the todolist.txt file
+import functions # my back end read & write functions for the todolist.txt
 
-todos = functions.get_to_do_list()
+todos = functions.get_to_do_list() # call function to get list
 
 def add_todo():
     new_todo = st.session_state["new_todo"] + "\n" # get value from the key / value pair
